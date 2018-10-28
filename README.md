@@ -6,7 +6,7 @@ There are primary tools:
 ## Installation
 Clone the code:
 ```js
-git clone https://github.com/cuonghuynh/sevencolorfuldays project-name
+git clone https://github.com/cuonghuynh/webpack-es6-boilerplate project-name
 ```
 Install front-end packages
 ```js
