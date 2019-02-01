@@ -37,8 +37,7 @@ let webpackConfig = {
     publicPath: false,
   },
   module: {
-    rules: [
-      {
+    rules: [{
         enforce: 'pre',
         test: /\.js$/,
         include: config.paths.assets,
@@ -53,9 +52,15 @@ let webpackConfig = {
       {
         test: /\.js$/,
         exclude: [/node_modules(?![/|\\](bootstrap|foundation-sites))/],
-        use: [
-          { loader: 'cache' },
-          { loader: 'buble', options: { objectAssign: 'Object.assign' } },
+        use: [{
+            loader: 'cache'
+          },
+          {
+            loader: 'buble',
+            options: {
+              objectAssign: 'Object.assign'
+            }
+          },
         ],
       },
       {
@@ -63,12 +68,22 @@ let webpackConfig = {
         include: config.paths.assets,
         use: ExtractTextPlugin.extract({
           fallback: 'style',
-          use: [
-            { loader: 'cache' },
-            { loader: 'css', options: { sourceMap: config.enabled.sourceMaps } },
+          use: [{
+              loader: 'cache'
+            },
             {
-              loader: 'postcss', options: {
-                config: { path: __dirname, ctx: config },
+              loader: 'css',
+              options: {
+                sourceMap: config.enabled.sourceMaps
+              }
+            },
+            {
+              loader: 'postcss',
+              options: {
+                config: {
+                  path: __dirname,
+                  ctx: config
+                },
                 sourceMap: config.enabled.sourceMaps,
               },
             },
@@ -80,18 +95,34 @@ let webpackConfig = {
         include: config.paths.assets,
         use: ExtractTextPlugin.extract({
           fallback: 'style',
-          use: [
-            { loader: 'cache' },
-            { loader: 'css', options: { sourceMap: config.enabled.sourceMaps } },
+          use: [{
+              loader: 'cache'
+            },
             {
-              loader: 'postcss', options: {
-                config: { path: __dirname, ctx: config },
+              loader: 'css',
+              options: {
+                sourceMap: config.enabled.sourceMaps
+              }
+            },
+            {
+              loader: 'postcss',
+              options: {
+                config: {
+                  path: __dirname,
+                  ctx: config
+                },
                 sourceMap: config.enabled.sourceMaps,
               },
             },
-            { loader: 'resolve-url', options: { sourceMap: config.enabled.sourceMaps } },
             {
-              loader: 'sass', options: {
+              loader: 'resolve-url',
+              options: {
+                sourceMap: config.enabled.sourceMaps
+              }
+            },
+            {
+              loader: 'sass',
+              options: {
                 sourceMap: config.enabled.sourceMaps,
                 sourceComments: true,
               },
@@ -150,31 +181,37 @@ let webpackConfig = {
     }),
     new ExtractTextPlugin({
       filename: `styles/${assetsFilenames}.css`,
-      allChunks: true,
-      disable: (config.enabled.watcher),
+      allChunks: true
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
       Popper: 'popper.js/dist/umd/popper.js',
+
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: config.enabled.optimize,
-      debug: config.enabled.watcher,
-      stats: { colors: true },
+      stats: {
+        colors: true
+      },
     }),
     new webpack.LoaderOptionsPlugin({
       test: /\.s?css$/,
       options: {
-        output: { path: config.paths.dist },
+        output: {
+          path: config.paths.dist
+        },
         context: config.paths.assets,
       },
     }),
     new webpack.LoaderOptionsPlugin({
       test: /\.js$/,
       options: {
-        eslint: { failOnWarning: false, failOnError: true },
+        eslint: {
+          failOnWarning: false,
+          failOnError: true
+        },
       },
     }),
     new StyleLintPlugin({
@@ -185,7 +222,8 @@ let webpackConfig = {
   ],
 };
 
-/* eslint-disable global-require */ /** Let's only load dependencies as needed */
+/* eslint-disable global-require */
+/** Let's only load dependencies as needed */
 
 if (config.enabled.optimize) {
   webpackConfig = merge(webpackConfig, require('./webpack.config.optimize'));
@@ -207,11 +245,6 @@ if (config.enabled.cacheBusting) {
       replacer: require('./util/assetManifestsFormatter'),
     })
   );
-}
-
-if (config.enabled.watcher) {
-  webpackConfig.entry = require('./util/addHotMiddleware')(webpackConfig.entry);
-  webpackConfig = merge(webpackConfig, require('./webpack.config.watch'));
 }
 
 module.exports = merge.smartStrategy({
