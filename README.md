@@ -3,7 +3,7 @@ There are primary tools:
 * Webpack
 * npm
 * Browsersync
-## Installation
+## 1. Installation
 Clone the code:
 ```js
 git clone https://github.com/cuonghuynh/webpack-es6-boilerplate project-name
@@ -13,7 +13,7 @@ Install front-end packages
 yarn
 ```
 
-## Build commands
+## 2. Build commands
 Run these script commands
 * `yarn build` - compile and optimize the files in `assets` directory
 * `yarn build:production` - compile assets for production
